@@ -18,4 +18,6 @@ from django.urls import path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', views.home, name='home'),
+    path('gigs/?P<id>[0-9]+)/$', views.gig_detail, name='gig_detail'),
 ]

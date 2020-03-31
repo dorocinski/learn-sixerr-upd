@@ -1,0 +1,85 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5 user-scalable=no>
+
+    <title>Sixerr App</title>
+    <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}">
+
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/app.css' %}">
+
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+
+  </head>
+  <body>
+    <nav class="navbar navbar-expand fixed-top flex-column p-0">
+      <div class="navbar container-fluid navbar-dark bg-dark">
+          <a class="navbar-brand" href="/">
+            <img src="{% static 'img/logo.png' %}" height="23">
+          </a>
+
+          <button class="navbar-toggler" type="button"
+                  data-toggle="collapse" data-target="#navbarSupportedContent"
+                  aria-controls="navbarSupportedContent" aria-expanded="false"
+                  aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+            <form class="form-inline my-2 my-lg-0 mr-auto">
+              <input class="form-control mr-sm-2" type="search"
+                    placeholder="Find services" aria-label="Search">
+            </form>
+
+            <ul class="navbar-nav">
+              {% if user and not user.is_anonymous %}
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+                        role="button" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                  {{ user.get_full_name|default:user.username }} <span class="caret"></span>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a href="{% url 'auth:logout' %}?next={{request.path}}"
+                          class="dropdown-item" >Logout</a>
+                </div>
+              </li>
+              {% else %}
+                <li class="nav-item">
+                  <a href="{% url 'social:begin' 'facebook' %}?next={{request.path}}"
+                            class="nav-link">Login</a>
+                </li>
+              {% endif %}
+            </ul>
+
+          </div>
+      </div>
+      <div class="navbar container-fluid navbar-light bg-light">
+        <ul class="nav navbar-nav">
+            <li class="nav-item"><a href="#" class="nav-link">Graphics & Design</a>
+            <li class="nav-item"><a href="#" class="nav-link">Digital Marketing</a>
+            <li class="nav-item"><a href="#" class="nav-link">Video & Animation</a>
+            <li class="nav-item"><a href="#" class="nav-link">Music & Audio</a>
+            <li class="nav-item"><a href="#" class="nav-link">Programming & Tech</a>
+        </ul>
+      </div>
+    </nav>
+    <hr/>
+    <div id="body">
+      <div class="container">
+        {% block page %}
+        {% endblock %}
+      </div>
+    </div>
+    <footer id="footer">
+      <div class="container">
+        <span>Sixerr App &copy; 2016</span>
+      </div>
+    </div>
+  </body>
+</html>
