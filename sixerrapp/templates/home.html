@@ -1,6 +1,25 @@
-{%extends 'base.html' %}
+{% extends 'base.html' %}
+{% load static %}
 
 {% block page %}
-  <p>Home Page</p>
-    <a href="{% url 'gig_detail' '1'%}">Gig Detail</a>
-{%endblock %}
+
+  <div class="row">
+    <div class="col-md-12">
+      <img src="{% static 'img/banner.gif' %}" class="banner">
+    </div>
+
+    {% for i in '12345678' %}
+      <div class="col-md-3 mb-3">
+        <div class="card" style="width: 16rem;">
+          <a href="{% url 'gig_detail' i %}"><img class="card-img-top" src="{% static 'img/gig.png' %}"></a>
+          <div class="card-body">
+            <p class="card-text" ><a href="{% url 'gig_detail' i %}">I will create your own website with Django and ReactJS</a></p>
+            <p class="card-text"><span>by <a href="#">Iron Man</a></span><b class="green float-right">$6</b></p>
+            <!-- <p class="card-text"><small class="text-muted">Posted 3 mins ago</small></p> -->
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+{% endblock %}
