@@ -37,6 +37,7 @@
             </form>
 
             <ul class="navbar-nav">
+
               {% if user and not user.is_anonymous %}
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
@@ -45,13 +46,14 @@
                   {{ user.get_full_name|default:user.username }} <span class="caret"></span>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a href="#"
+                  <a href="{% url 'logout' %}?next={{request.path}}"
                           class="dropdown-item" >Logout</a>
+
                 </div>
               </li>
               {% else %}
                 <li class="nav-item">
-                  <a href="#"
+                  <a href="{% url 'social:begin' 'facebook' %}?next={{request.path}}"
                             class="nav-link">Login</a>
                 </li>
               {% endif %}
