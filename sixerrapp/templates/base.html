@@ -40,12 +40,18 @@
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
                     role="button" data-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="false">
-                    <img src="{% if user.profile %} {{ user.profile.avatar }} {% else %} {% static 'img/avatar.png' %} {% endif %}" class="rounded-circle" height="22" width="22" />&nbsp;
-                    {{ user.get_full_name|default:user.username }} <span class="caret"></span>
+                    <img src="{% if user.profile %} {{ user.profile.avatar }}
+                            {% else %} {% static 'img/avatar.png' %} {% endif %}"
+                            class="rounded-circle" height="22" width="22" />&nbsp;
+                    {{ user.get_full_name|default:user.username }}
+                    <span class="caret"></span>
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a href="{% url 'logout' %}?next={{request.path}}"
-                        class="dropdown-item" >Logout</a>
+                <a class="dropdown-item" href="{% url 'create_gig' %}" >Create Gig</a>
+                <a class="dropdown-item" href="{% url 'my_gigs' %}" >My Gigs</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item"
+                  href="{% url 'logout' %}?next={{request.path}}" >Logout</a>
               </div>
             </li>
             {% else %}
