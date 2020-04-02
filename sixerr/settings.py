@@ -131,13 +131,18 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-STATIC_URL = '/static/'
+
 
 # Whitenoise: http://whitenoise.evans.io/en/stable/
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL = '/static/'
+
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
+# Setup upload directory for Gig Model
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 
 # Tutorial: https://medium.com/@kennethjiang/python-social-auth-for-django-tutorial-16bbe792659f
 # Tutorial2: https://www.digitalocean.com/community/tutorials/django-authentication-with-facebook-instagram-and-linkedin

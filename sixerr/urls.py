@@ -18,10 +18,15 @@ from django.urls import path, include
 from sixerrapp import views
 from django.contrib.auth import views as auth_views
 
+#https://docs.djangoproject.com/en/3.0/howto/static-files/#serving-static-files-during-development
+from django.conf import settings
+from django.conf.urls.static import static
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('sixerrapp.urls')),
     path('', include('social_django.urls', namespace="social")),
     path("logout/", auth_views.LogoutView.as_view(), name="logout"),
 
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
