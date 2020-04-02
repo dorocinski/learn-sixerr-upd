@@ -70,6 +70,8 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect', # add this
+
             ],
         },
     },
@@ -150,7 +152,7 @@ AUTHENTICATION_BACKENDS = [
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_URL = 'logout'
-LOGOUT_REDIRECT_URL = '/login/'
+LOGOUT_REDIRECT_URL = '/'
 SOCIAL_AUTH_STRATEGY = 'social_django.strategy.DjangoStrategy'
 SOCIAL_AUTH_STORAGE = 'social_django.models.DjangoStorage'
 
@@ -161,9 +163,11 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.social_user',
     'social_core.pipeline.user.get_username',
     'social_core.pipeline.user.create_user',
+    #'sixerrapp.social_auth_pipeline.save_avatar'
     'social_core.pipeline.social_auth.associate_user',
     'social_core.pipeline.social_auth.load_extra_data',
     'social_core.pipeline.user.user_details',
+
 )
 
 SOCIAL_AUTH_FACEBOOK_KEY = '1086994241645400'
