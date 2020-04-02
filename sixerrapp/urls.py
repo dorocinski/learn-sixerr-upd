@@ -8,4 +8,7 @@ urlpatterns = [
     path('my_gigs/', views.my_gigs, name='my_gigs'),
     path('create_gig/', views.create_gig, name='create_gig'),
     path('edit_gig/<int:id>/', views.edit_gig, name='edit_gig'),
+    path('profile/<slug:username>/', views.profile, name='profile'),
 ]
+
+# Help for URL PAtterns: https://consideratecode.com/2018/05/02/django-2-0-url-to-path-cheatsheet/

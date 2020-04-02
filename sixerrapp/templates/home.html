@@ -14,7 +14,7 @@
           <a href="{% url 'gig_detail' gig.id %}"><img class="card-img-top" src="/media/{{ gig.photo }}"></a>
           <div class="card-body">
             <p class="card-text" ><a href="{% url 'gig_detail' gig.id %}">{{ gig.title }}</a></p>
-            <p class="card-text"><span>by <a href="#">{{ gig.user.username }}</a></span><b class="green float-right">${{ gig.price }}</b></p>
+            <p class="card-text"><span>by <a href="{%url 'profile' gig.user.username %}">{{ gig.user.username }}</a></span><b class="green float-right">${{ gig.price }}</b></p>
             <!-- <p class="card-text"><small class="text-muted">Posted 3 mins ago</small></p> -->
           </div>
         </div>
