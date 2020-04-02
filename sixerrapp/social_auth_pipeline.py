@@ -10,3 +10,5 @@ def save_avatar(backend, user, response, *args, **kwargs):
         profile.avatar = response['picture']['data']['url']
         #profile.avatar = 'http://graph.facebook.com/%s/picture?type=large' %  response['id']
     profile.save()
+
+#Tutorial bom aqui: https://www.digitalocean.com/community/tutorials/django-authentication-with-facebook-instagram-and-linkedin
