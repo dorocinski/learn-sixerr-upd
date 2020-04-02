@@ -2,5 +2,9 @@
 {% load static %}
 
 {% block page %}
-    Create a Gig
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ gig_form }}
+    <button type="submit">Publish</button>
+  </form>
 {% endblock %}
