@@ -38,12 +38,13 @@ def gig_detail(request, id):
             private_key="6f3ec31cf1688cf8da66f58e0558effc"
         )
     )
+    reviews = Review.objects.filter(gig=gig)
     try:
         client_token = gateway.client_token.generate({"customer_id": request.user.id})
     except:
         client_token = gateway.client_token.generate({})
 
-    context = {'client_token': client_token,"gig": gig}
+    context = {'client_token': client_token,"gig": gig, "reviews": reviews}
     return render(request, 'gig_detail.html', context)
 
 @login_required(login_url='/')

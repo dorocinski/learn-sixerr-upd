@@ -40,3 +40,13 @@ class Purchase(models.Model):
 
     def __str__(self):
         return self.gig.title
+
+
+class Review(models.Model):
+    gig = models.ForeignKey(Gig, on_delete=models.DO_NOTHING)
+    buyer = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+    content = models.CharField(max_length=500)
+    create_time = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return self.content
