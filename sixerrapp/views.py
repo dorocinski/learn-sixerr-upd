@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
-from .models import Gig, Profile, Purchase
+from .models import Gig, Profile, Purchase, Review
 from .forms import GigForm
 
 import braintree
@@ -20,31 +20,36 @@ def home(request):
     gigs = Gig.objects.filter(status=True)
     return render(request, 'home.html', {"gigs": gigs})
 
-
-
 def gig_detail(request, id):
-    #generate all other required data that you may need on the #checkout page and add them to context.
+    if request.method == 'POST' and \
+        not request.user.is_anonymous and \
+        Purchase.objects.filter(gig_id=id, buyer=request.user).count() > 0 and \
+        'content' in request.POST and \
+        request.POST['content'].strip() != '':
+        Review.objects.create(content=request.POST['content'], gig_id=id, buyer=request.user)
+
     try:
         gig = Gig.objects.get(id=id)
     except Gig.DoesNotExist:
         return redirect('/')
 
-    # Configure Braintree
-    gateway = braintree.BraintreeGateway(
-        braintree.Configuration(
-            braintree.Environment.Sandbox,
-            merchant_id="p7zg8s2rz6kfh7s8",
-            public_key="y86dw42kgw86rzd5",
-            private_key="6f3ec31cf1688cf8da66f58e0558effc"
-        )
-    )
+    if request.user.is_anonymous or \
+        Purchase.objects.filter(gig=gig, buyer=request.user).count() == 0 or \
+        Review.objects.filter(gig=gig, buyer=request.user).count() > 0:
+        show_post_review = False
+    else:
+        show_post_review = Purchase.objects.filter(gig=gig, buyer=request.user).count() > 0
+
     reviews = Review.objects.filter(gig=gig)
+
+    #### Braintree: client token generation
     try:
         client_token = gateway.client_token.generate({"customer_id": request.user.id})
     except:
         client_token = gateway.client_token.generate({})
 
-    context = {'client_token': client_token,"gig": gig, "reviews": reviews}
+    #Build Context and Generate Gig
+    context = {'show_post_review': show_post_review,'client_token': client_token,"gig": gig, "reviews": reviews}
     return render(request, 'gig_detail.html', context)
 
 @login_required(login_url='/')
