@@ -4,6 +4,13 @@ from django.contrib.auth.decorators import login_required
 from .models import Gig, Profile
 from.forms import GigForm
 
+import braintree
+
+braintree.Configuration.configure(braintree.Environment.Sandbox,
+                                    menchant_id = "p7zg8s2rz6kfh7s8",
+                                    public_key = "p7zg8s2rz6kfh7s8",
+                                    private_key = "6f3ec31cf1688cf8da66f58e0558effc")
+
 # Create your views here.
 def home(request):
     gigs = Gig.objects.filter(status=True)
