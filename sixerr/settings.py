@@ -193,5 +193,6 @@ SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ['username', 'first_name', 'email']
 
 SOCIAL_AUTH_POSTGRES_JSONFIELD = True
 
+
 # Activate Django-Heroku.
 django_heroku.settings(locals())

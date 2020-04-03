@@ -5,15 +5,13 @@
 
   <div class="row">
     <div class="col-md-8">
-
-      <div class="card">
-        <div class="card-body">
-          <h3 class="card-title">{{ gig.title }}</h3>
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <h3>{{ gig.title }}</h3>
+          <hr/>
+          <img src="/media/{{ gig.photo }}" class="img-repsonsive center-block">
         </div>
-        <img class="card-img-bottom" src="/media/{{ gig.photo }}">
       </div>
-
-<!-- Fiz Até aqui, terminar o resto do Layout -->
       <div class="panel panel-default">
         <div class="panel-heading">
           <h4>About This Gig</h4>
@@ -31,8 +29,7 @@
             <li class="list-group-item">
               <div class="row">
                 <div class="col-md-2">
-                  <img src="{% static 'img/avatar.png' %}"
-                    class="img-circle center-block" height="60" width="60">
+                  <img src="{% static 'img/avatar.png' %}" class="img-circle center-block" height="60" width="60">
                 </div>
                 <div class="col-md-10">
                   <h5>Iron Man</h5>
@@ -47,22 +44,33 @@
     <div class="col-md-4">
       <div class="panel panel-defaul">
         <div class="panel-body">
-          <button type="button" class="btn btn-success btn-block">
-              Order Now (${{ gig.price }})
-          </button>
+
+          {% if user and not user.is_anonymous %}
+            <form method="POST" action="/checkout/">
+              {% csrf_token %}
+              <div id="payment-form"></div>
+              <input name="gig_id" value="{{ gig.id }}" hidden>
+              <button type="submit" class="btn btn-success btn-block">Order Now (${{ gig.price }})</button>
+            </form>
+
+            <script src="https://js.braintreegateway.com/js/braintree-2.32.1.min.js"></script>
+            <script>
+              $(document).ready(function() {
+                braintree.setup("{{ client_token }}", "dropin", {
+                    container: "payment-form"
+                });
+              });
+            </script>
+          {% else %}
+            You need to login to order this gig!
+          {% endif %}
+
         </div>
       </div>
       <div class="panel panel-default">
         <div class="panel-body">
-
-          <img src="{% if gig.user.profile %} {{ gig.user.profile.avatar }}
-                    {% else %} {% static 'img/avatar.png' %} {% endif %}"
-                    class="img-circle center-block" height="100" width="100">
-          <a href="{%url 'profile' gig.user.username %}">
-            <h4 class="text-center">
-              {{ gig.user.get_full_name|default:gig.user.username }}
-            </h4>
-          </a>
+          <img src="{{ gig.user.profile.avatar }}" class="img-circle center-block" height="100" width="100">
+          <a href="{% url 'profile' gig.user.username %}"><h4 class="text-center">{{ gig.user.username }}</h4></a>
           <hr/>
           <p>{{ gig.user.profile.about }}</p>
         </div>
