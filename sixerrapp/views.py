@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
-from .models import Gig, Profile
-from.forms import GigForm
+from .models import Gig, Profile, Purchase
+from .forms import GigForm
 
 import braintree
 
@@ -133,6 +133,7 @@ def create_purchase(request):
                 return redirect('/')
 
         if result.is_success:
+            Purchase.objects.create(gig=gig, buyer=request.user)
             print("success!: " + result.transaction.id)
         else:
             print("Buy Gig Failed")

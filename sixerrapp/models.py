@@ -32,3 +32,11 @@ class Gig(models.Model):
 
     def __str__(self):
         return self.title
+
+class Purchase(models.Model):
+    gig = models.ForeignKey(Gig, on_delete=models.DO_NOTHING)
+    buyer = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+    create_time = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return self.gig.title
