@@ -46,6 +46,25 @@
         <div class="panel-body">
 
           {% if user and not user.is_anonymous %}
+          <form method="POST" action="/checkout/">
+            {% csrf_token %}
+            <div id="payment-form"></div>
+            <input name="gig_id" value="{{ gig.id }}" hidden>
+            <button type="submit" class="btn btn-success btn-block">Order Now (${{ gig.price }})</button>
+          </form>
+
+          <script src="https://js.braintreegateway.com/js/braintree-2.32.1.min.js"></script>
+          <script>
+          // We generated a client token for you so you can test out this code
+          // immediately. In a production-ready integration, you will need to
+          // generate a client token on your server (see section below).
+
+          braintree.setup("{{ client_token }}", "dropin", {
+            container: "payment-form"
+          });
+          </script>
+
+<!--
             <form method="POST" action="/checkout/">
               {% csrf_token %}
               <div id="payment-form"></div>
@@ -64,7 +83,7 @@
           {% else %}
             You need to login to order this gig!
           {% endif %}
-
+-->
         </div>
       </div>
       <div class="panel panel-default">

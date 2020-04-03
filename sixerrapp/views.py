@@ -107,34 +107,26 @@ def create_purchase(request):
         except Gig.DoesNotExist:
             return redirect('/')
 
-
-        nonce = request.POST["payment_method_nonce"]
+        nonce_from_the_client = request.POST["payment_method_nonce"]
 
         result = gateway.transaction.sale({
             "amount": gig.price,
-            "payment_method_nonce": nonce,
+            "payment_method_nonce": nonce_from_the_client,
             "options": {
                 "submit_for_settlement": True
             }
         })
-
         if result.is_success:
+            Purchase.objects.create(gig=gig, buyer=request.user)
             print("success!: " + result.transaction.id)
         elif result.transaction:
             print("Error processing transaction:")
             print("  code: " + result.transaction.processor_response_code)
             print("  text: " + result.transaction.processor_response_text)
-            return redirect('/')
         else:
             for error in result.errors.deep_errors:
                 print("attribute: " + error.attribute)
                 print("  code: " + error.code)
                 print("  message: " + error.message)
-                return redirect('/')
 
-        if result.is_success:
-            Purchase.objects.create(gig=gig, buyer=request.user)
-            print("success!: " + result.transaction.id)
-        else:
-            print("Buy Gig Failed")
-            return redirect('/')
+    return redirect('/')
