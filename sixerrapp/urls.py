@@ -13,6 +13,7 @@ urlpatterns = [
     path('my_buyings/', views.my_buyings, name='my_buyings'),
     path('my_sellings/', views.my_sellings, name='my_sellings'),
     path('category/<slug:link>/', views.category, name='category'),
+    path('search/', views.search, name='search'),
 ]
 
 # Help for URL PAtterns: https://consideratecode.com/2018/05/02/django-2-0-url-to-path-cheatsheet/
